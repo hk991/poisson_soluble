@@ -15,7 +15,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 final class AlertController extends AbstractController
 {
-    #[Route('/alerter', name: 'send_alerts', methods: ['GET', 'POST'])]
+    #[Route('/alerter', name: 'send_alerts', methods: ['POST'])]
     public function sendAlerts(
         Request $request,
         RecipientRepository $repository,
