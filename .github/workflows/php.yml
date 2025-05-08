@@ -58,7 +58,7 @@ jobs:
           DATABASE_URL: postgresql://symfony:symfony@127.0.0.1:5432/symfony
         run: |
           php bin/console cache:clear
-          php bin/console doctrine:migrations:migrate --no-interaction
+          php bin/console sql-migrations:execute
           php bin/console messenger:setup-transports
           php bin/console import-recipients public/recipients.csv
 
