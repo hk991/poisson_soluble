@@ -1,0 +1,69 @@
+name: Run PHPUNIT Tests
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:15
+        ports:
+          - 5432:5432
+        env:
+          POSTGRES_DB: symfony
+          POSTGRES_USER: symfony
+          POSTGRES_PASSWORD: symfony
+        options: >-
+          --health-cmd="pg_isready -U symfony"
+          --health-interval=5s
+          --health-timeout=2s
+          --health-retries=3
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup PHP 8.3
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+
+      - name: PHP Version
+        run: php -v
+
+      - name: Install Composer
+        run: |
+          php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
+          php -r "if (hash_file('sha384', 'composer-setup.php') === 'dac665fdc30fdd8ec78b38b9800061b4150413ff2e3b6f88543c636f7cd84f6db9189d43a81e5503cda447da73c7e5b6') { echo 'Installer verified'.PHP_EOL; } else { echo 'Installer corrupt'.PHP_EOL; unlink('composer-setup.php'); exit(1); }"
+          php composer-setup.php
+          php -r "unlink('composer-setup.php');"
+
+      - name: Install dependencies
+        run: php ./composer.phar install
+
+      - name: Wait for PostgreSQL to be ready
+        run: |
+          until pg_isready -h 127.0.0.1 -p 5432 -U symfony; do
+            echo "Waiting for PostgreSQL...";
+            sleep 2;
+          done
+
+      - name: Migrate DB
+        env:
+          DATABASE_URL: postgresql://symfony:symfony@127.0.0.1:5432/symfony
+        run: |
+          php bin/console cache:clear
+          php bin/console doctrine:migrations:migrate --no-interaction
+          php bin/console messenger:setup-transports
+          php bin/console import-recipients public/recipients.csv
+
+      - name: PHP Unit
+        env:
+          DATABASE_URL: postgresql://symfony:symfony@127.0.0.1:5432/symfony
+          APP_ENV: test
+        run: php -d xdebug.mode=coverage vendor/bin/phpunit --log-junit var/tests/junit.xml
