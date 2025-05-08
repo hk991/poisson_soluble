@@ -6,14 +6,14 @@ Docker est utilisé pour PostreSQL, PHP, Nginx et Adminer.
 Pour démarrer le projet, exécutez la commande suivante :
 
 ```shell
-docker compose up -d --build
+docker-compose up -d --build
 ```
 Le projet est disponible à l'adresse `http://localhost:8080`.
 
 Pour stopper le projet exécuter la commande suivante :
 
 ```shell
-docker compose down
+docker-compose down
 ```
 Cela stoppera le serveur web, PHP et les containers Docker en les détruisants. Les données des bases de données sont conservées.
 
