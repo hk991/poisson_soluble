@@ -30,7 +30,7 @@ final class AlertController extends AbstractController
 
         $data = json_decode($request->getContent(), true);
         if (!\is_array($data) || !isset($data['insee'])) {
-            return new JsonResponse(['error' => 'Missing or invalid JSON payload'], 400);
+            return new JsonResponse(['error' => 'Missing or invalid JSON payload'], JsonResponse::HTTP_BAD_REQUEST);
         }
 
         $recipients = $repository->findByInsee($data['insee']);
