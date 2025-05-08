@@ -54,7 +54,7 @@ class AlertControllerTest extends WebTestCase
 
         $this->assertResponseStatusCodeSame(400);
         $this->assertJson($client->getResponse()->getContent());
-        $this->assertStringContainsString('Missing INSEE code', $client->getResponse()->getContent());
+        $this->assertStringContainsString('Missing or invalid JSON payload', $client->getResponse()->getContent());
     }
 
     public function testSendAlertsInvalidContentType(): void

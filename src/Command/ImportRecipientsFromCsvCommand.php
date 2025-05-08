@@ -6,6 +6,7 @@ namespace App\Command;
 
 use App\Entity\Recipient;
 use App\Repository\RecipientRepository;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -21,6 +22,7 @@ final class ImportRecipientsFromCsvCommand extends Command
 {
     public function __construct(
         private readonly RecipientRepository $recipientRepository,
+        private readonly LoggerInterface $businessLogger,
     ) {
         parent::__construct();
     }
@@ -34,17 +36,20 @@ final class ImportRecipientsFromCsvCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
+        $startTime = microtime(true);
         $io = new SymfonyStyle($input, $output);
         $filePath = $input->getArgument('file');
 
         if (!file_exists($filePath)) {
             $io->error('The file does not exist');
+            $this->businessLogger->error("Import failed: file not found at path '$filePath'");
 
             return Command::FAILURE;
         }
 
         if (($handle = fopen($filePath, 'r')) === false) {
             $io->error('Cannot open the file');
+            $this->businessLogger->error("Import failed: cannot open file '$filePath'");
 
             return Command::FAILURE;
         }
@@ -57,6 +62,7 @@ final class ImportRecipientsFromCsvCommand extends Command
         if (!$headers || !\in_array('insee', $headers) || !\in_array('phone', $headers)) {
             $io->error("The CSV file must contain 'insee' and 'phone' fields");
             fclose($handle);
+            $this->businessLogger->error("Import failed: invalid headers in file '$filePath'");
 
             return Command::FAILURE;
         }
@@ -78,7 +84,18 @@ final class ImportRecipientsFromCsvCommand extends Command
 
         fclose($handle);
 
-        $successMessage = \sprintf('Import completed, %1$d rows imported successfully, %2$d rows failed', $rowsImportedCount, $rowsFailedCount);
+        $duration = microtime(true) - $startTime;
+        $successMessage = \sprintf(
+            'Import completed: %d rows imported, %d rows failed (Duration: %.2f seconds)',
+            $rowsImportedCount,
+            $rowsFailedCount,
+            $duration
+        );
+
+        $this->businessLogger->info($successMessage);
+        foreach ($errors as $error) {
+            $this->businessLogger->warning($error);
+        }
 
         $io->success($successMessage);
 
