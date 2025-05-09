@@ -15,6 +15,7 @@
 ###< friendsofphp/php-cs-fixer ###
 
 /docker/nginx/logs/
+.php-version
 
 ###> symfony/phpunit-bridge ###
 .phpunit.result.cache
