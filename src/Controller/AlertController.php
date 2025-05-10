@@ -37,7 +37,7 @@ final class AlertController extends AbstractController
 
         foreach ($recipients as $recipient) {
             $bus->dispatch(new SendSMSMessage(
-                $recipient['phone'],
+                $recipient->getPhone(),
                 'test message.'
             ));
         }

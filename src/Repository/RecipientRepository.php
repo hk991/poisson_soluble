@@ -22,13 +22,18 @@ final class RecipientRepository
         ]);
     }
 
-    public function findByInsee(string $insee): ?Recipient
+    public function findByInsee(string $insee): array
     {
-        $data = $this->connection->fetchAssociative(
+        $rows = $this->connection->fetchAllAssociative(
             'SELECT * FROM recipients WHERE insee = :insee',
             ['insee' => $insee]
         );
 
-        return $data ? new Recipient($data['insee'], $data['phone']) : null;
+        $recipients = [];
+        foreach ($rows as $row) {
+            $recipients[] = new Recipient($row['insee'], $row['phone']);
+        }
+
+        return $recipients;
     }
 }
