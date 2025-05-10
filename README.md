@@ -26,7 +26,7 @@ Cela stoppera le serveur web, PHP et les containers Docker en les détruisants. 
 Vous devez disposer des outils suivant installé sur votre machine :
 
 * Symfony Cli
-* PHP 8.3 en activant les extensions nécessaires (pdo pdo_mysql pdo_pgsql)
+* PHP 8.1+ en activant les extensions nécessaires (pdo pdo_mysql pdo_pgsql)
 * Composer
 * PostgreSQL
 
@@ -39,16 +39,13 @@ composer install
 php bin/console sql-migrations:execute
 php bin/console messenger:setup-transports
 ```
-
-Il est possible que les certificats SSL ne soit pas installé. Exécutez les commandes suivantes :
+Exécutez la commande suivante pour lancer le serveur symfony :
 
 ```shell
-symfony server:stop
-symfony local:server:ca:install
 symfony serve -d
 ```
 
-Le projet est disponible à l'adresse `https://127.0.0.1:8000`.
+Le projet est disponible à l'adresse `http://127.0.0.1:8000`.
 
 Pour stopper le serveur, exécutez la commande suivante :
 
