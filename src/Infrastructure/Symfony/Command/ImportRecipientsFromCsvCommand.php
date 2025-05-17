@@ -44,18 +44,18 @@ final class ImportRecipientsFromCsvCommand extends Command
         $response = $this->importRecipientsUseCase->execute($request);
 
         if ($response->success) {
-            $io->success($response->message);
+            $io->success($response->getMessage());
         } else {
-            $io->error($response->message);
+            $io->error($response->getMessage());
         }
 
         if (!empty($response->errors)) {
             $io->text('Errors:');
-            foreach ($response->errors as $error) {
+            foreach ($response->getErrors() as $error) {
                 $io->error($error);
             }
         }
 
-        return $response->success ? Command::SUCCESS : Command::FAILURE;
+        return $response->isSuccess() ? Command::SUCCESS : Command::FAILURE;
     }
 }
