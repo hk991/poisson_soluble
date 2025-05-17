@@ -43,7 +43,7 @@ final class ImportRecipientsFromCsvCommand extends Command
 
         $response = $this->importRecipientsUseCase->execute($request);
 
-        if ($response->success) {
+        if ($response->isSuccess()) {
             $io->success($response->getMessage());
         } else {
             $io->error($response->getMessage());
