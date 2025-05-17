@@ -2,46 +2,36 @@
 
 declare(strict_types=1);
 
-namespace App\Controller;
+namespace Infrastructure\Symfony\Controller;
 
-use App\Message\SendSMSMessage;
-use App\Repository\RecipientRepository;
-use App\Security\ApiKeyAuthenticator;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Domain\Request\Recipient\SendAlertsRequest;
+use Domain\UseCase\Recipient\SendAlertsUseCase;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
-final class AlertController extends AbstractController
+final class SendAlertsController
 {
     #[Route('/alerter', name: 'send_alerts', methods: ['POST'])]
     public function sendAlerts(
         Request $request,
-        RecipientRepository $repository,
-        MessageBusInterface $bus,
-        ApiKeyAuthenticator $authenticator,
+        SendAlertsUseCase $sendAlertsUseCase,
     ): JsonResponse {
         if ($request->isMethod('POST') && $request->headers->get('Content-Type') !== 'application/json') {
             return new JsonResponse(['error' => 'Incorrect Content-Type. Expected application/json.'], JsonResponse::HTTP_BAD_REQUEST);
         }
-
-        $authenticator->validate($request);
 
         $data = json_decode($request->getContent(), true);
         if (!\is_array($data) || !isset($data['insee'])) {
             return new JsonResponse(['error' => 'Missing or invalid JSON payload'], JsonResponse::HTTP_BAD_REQUEST);
         }
 
-        $recipients = $repository->findByInsee($data['insee']);
+        $response = $sendAlertsUseCase->sendAlerts(new SendAlertsRequest($data['insee'], $request->headers->get('x-api-key')));
 
-        foreach ($recipients as $recipient) {
-            $bus->dispatch(new SendSMSMessage(
-                $recipient->getPhone(),
-                'test message.'
-            ));
+        if ($response->isSuccess()) {
+            return new JsonResponse(['message' => $response->getMessage()], JsonResponse::HTTP_OK);
         }
 
-        return new JsonResponse(['message' => 'SMS queued for delivery.'], JsonResponse::HTTP_OK);
+        return new JsonResponse(['error' => $response->getMessage()], JsonResponse::HTTP_BAD_REQUEST);
     }
 }

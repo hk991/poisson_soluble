@@ -2,12 +2,13 @@
 
 declare(strict_types=1);
 
-namespace App\Repository;
+namespace Infrastructure\Symfony\Repository;
 
-use App\Entity\Recipient;
 use Doctrine\DBAL\Connection;
+use Domain\Entity\Recipient;
+use Domain\Gateway\RecipientRepositoryInterface;
 
-final class RecipientRepository
+final class DoctrineRecipientRepository implements RecipientRepositoryInterface
 {
     public function __construct(
         private readonly Connection $connection,

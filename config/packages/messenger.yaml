@@ -18,4 +18,4 @@ framework:
 
         routing:
             # Route your messages to the transports
-            App\Message\SendSMSMessage: async
+            Domain\Event\Recipient\SendAlertMessage: async

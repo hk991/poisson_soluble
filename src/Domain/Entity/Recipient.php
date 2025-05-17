@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Entity;
+namespace Domain\Entity;
 
 class Recipient
 {
@@ -35,13 +35,13 @@ class Recipient
         $this->phone = $phone;
     }
 
-    public function validateInsee(): int|bool
+    public function validateInsee(): bool
     {
-        return preg_match('/^\d{5}$/', $this->insee);
+        return preg_match('/^\d{5}$/', $this->insee) === 1;
     }
 
-    public function validatePhone(): int|bool
+    public function validatePhone(): bool
     {
-        return preg_match('/^\d{10}$/', $this->phone);
+        return preg_match('/^\d{10}$/', $this->phone) === 1;
     }
 }
