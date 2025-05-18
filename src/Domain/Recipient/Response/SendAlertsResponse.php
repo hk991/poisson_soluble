@@ -2,19 +2,17 @@
 
 declare(strict_types=1);
 
-namespace Domain\Response\Recipient;
+namespace Domain\Recipient\Response;
 
-class ImportRecipientsFromCsvResponse
+class SendAlertsResponse
 {
     private bool $success;
     private string $message;
-    private array $errors = [];
 
-    public function __construct(bool $success, string $message, array $errors)
+    public function __construct(bool $success, string $message)
     {
         $this->success = $success;
         $this->message = $message;
-        $this->errors = $errors;
     }
 
     public function isSuccess(): bool
@@ -25,10 +23,5 @@ class ImportRecipientsFromCsvResponse
     public function getMessage(): string
     {
         return $this->message;
-    }
-
-    public function getErrors(): array
-    {
-        return $this->errors;
     }
 }

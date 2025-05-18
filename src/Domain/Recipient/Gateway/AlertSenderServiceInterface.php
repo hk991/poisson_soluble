@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Domain\Gateway;
+namespace Domain\Recipient\Gateway;
 
-use Domain\Entity\Recipient;
+use Domain\Recipient\Entity\Recipient;
 
 interface AlertSenderServiceInterface
 {

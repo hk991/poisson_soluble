@@ -18,4 +18,4 @@ framework:
 
         routing:
             # Route your messages to the transports
-            Domain\Event\Recipient\SendAlertMessage: async
+            Domain\Recipient\Event\SendAlertMessage: async

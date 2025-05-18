@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Tests\Unit\UseCase\Recipient;
+namespace Tests\Unit\Domain\Recipient\UseCase;
 
-use Domain\Entity\Recipient;
-use Domain\Gateway\LoggingGatewayInterface;
-use Domain\Gateway\RecipientRepositoryInterface;
-use Domain\Request\Recipient\ImportRecipientsFromCsvRequest;
-use Domain\Response\Recipient\ImportRecipientsFromCsvResponse;
-use Domain\UseCase\Recipient\ImportRecipientsFromCsvUseCase;
+use Domain\Recipient\Entity\Recipient;
+use Domain\Recipient\Gateway\LoggingGatewayInterface;
+use Domain\Recipient\Gateway\RecipientRepositoryInterface;
+use Domain\Recipient\Request\ImportRecipientsFromCsvRequest;
+use Domain\Recipient\Response\ImportRecipientsFromCsvResponse;
+use Domain\Recipient\UseCase\ImportRecipientsFromCsvUseCase;
 use PHPUnit\Framework\TestCase;
 
 class ImportRecipientsFromCsvUseCaseTest extends TestCase
@@ -30,7 +30,7 @@ class ImportRecipientsFromCsvUseCaseTest extends TestCase
 
     public function testExecuteWithRealCsvFile(): void
     {
-        $filePath = __DIR__.'/../../../../public/recipients.csv';
+        $filePath = __DIR__.'/../../../../../public/recipients.csv';
 
         $this->assertFileExists($filePath, "Le fichier CSV de test est introuvable à : $filePath");
 

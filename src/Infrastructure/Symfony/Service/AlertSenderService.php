@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Infrastructure\Symfony\Service;
 
-use Domain\Entity\Recipient;
-use Domain\Gateway\AlertSenderServiceInterface;
-use Domain\Gateway\LoggingGatewayInterface;
+use Domain\Recipient\Entity\Recipient;
+use Domain\Recipient\Gateway\AlertSenderServiceInterface;
+use Domain\Recipient\Gateway\LoggingGatewayInterface;
 
 class AlertSenderService implements AlertSenderServiceInterface
 {

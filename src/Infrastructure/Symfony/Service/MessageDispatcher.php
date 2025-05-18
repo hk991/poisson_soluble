@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Infrastructure\Symfony\Service;
 
-use Domain\Entity\Recipient;
-use Domain\Event\Recipient\SendAlertMessage;
-use Domain\Gateway\MessageDispatcherInterface;
+use Domain\Recipient\Entity\Recipient;
+use Domain\Recipient\Event\SendAlertMessage;
+use Domain\Recipient\Gateway\MessageDispatcherInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
 
 class MessageDispatcher implements MessageDispatcherInterface

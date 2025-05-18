@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Infrastructure\Symfony\Controller;
 
-use Domain\Request\Recipient\SendAlertsRequest;
-use Domain\UseCase\Recipient\SendAlertsUseCase;
+use Domain\Recipient\Request\SendAlertsRequest;
+use Domain\Recipient\UseCase\SendAlertsUseCase;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;

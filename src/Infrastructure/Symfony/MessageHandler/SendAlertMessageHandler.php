@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Infrastructure\Symfony\MessageHandler;
 
-use Domain\Event\Recipient\SendAlertMessage;
-use Domain\Gateway\AlertSenderServiceInterface;
-use Domain\Gateway\RecipientRepositoryInterface;
+use Domain\Recipient\Event\SendAlertMessage;
+use Domain\Recipient\Gateway\AlertSenderServiceInterface;
+use Domain\Recipient\Gateway\RecipientRepositoryInterface;
 use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 
 class SendAlertMessageHandler implements MessageHandlerInterface

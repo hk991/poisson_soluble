@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Domain\Event\Recipient;
+namespace Domain\Recipient\Event;
 
 class SendAlertMessage
 {

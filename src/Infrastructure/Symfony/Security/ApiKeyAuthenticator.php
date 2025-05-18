@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Infrastructure\Symfony\Security;
 
-use Domain\Gateway\ApiKeyValidatorInterface;
-use Domain\Request\Recipient\SendAlertsRequest;
+use Domain\Recipient\Gateway\ApiKeyValidatorInterface;
+use Domain\Recipient\Request\SendAlertsRequest;
 use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 
 class ApiKeyAuthenticator implements ApiKeyValidatorInterface

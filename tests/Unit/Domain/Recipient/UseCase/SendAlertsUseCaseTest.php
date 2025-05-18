@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Tests\Unit\UseCase\Recipient;
+namespace Tests\Unit\Domain\Recipient\UseCase;
 
-use Domain\Entity\Recipient;
-use Domain\Gateway\ApiKeyValidatorInterface;
-use Domain\Gateway\MessageDispatcherInterface;
-use Domain\Gateway\RecipientRepositoryInterface;
-use Domain\Request\Recipient\SendAlertsRequest;
-use Domain\Response\Recipient\SendAlertsResponse;
-use Domain\UseCase\Recipient\SendAlertsUseCase;
+use Domain\Recipient\Entity\Recipient;
+use Domain\Recipient\Gateway\ApiKeyValidatorInterface;
+use Domain\Recipient\Gateway\MessageDispatcherInterface;
+use Domain\Recipient\Gateway\RecipientRepositoryInterface;
+use Domain\Recipient\Request\SendAlertsRequest;
+use Domain\Recipient\Response\SendAlertsResponse;
+use Domain\Recipient\UseCase\SendAlertsUseCase;
 use PHPUnit\Framework\TestCase;
 
 class SendAlertsUseCaseTest extends TestCase

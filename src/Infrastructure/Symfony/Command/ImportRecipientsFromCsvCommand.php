@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Infrastructure\Symfony\Command;
 
-use Domain\Request\Recipient\ImportRecipientsFromCsvRequest;
-use Domain\UseCase\Recipient\ImportRecipientsFromCsvUseCase;
+use Domain\Recipient\Request\ImportRecipientsFromCsvRequest;
+use Domain\Recipient\UseCase\ImportRecipientsFromCsvUseCase;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;

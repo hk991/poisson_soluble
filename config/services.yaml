@@ -19,10 +19,10 @@ services:
     Domain\:
         resource: '../src/Domain'
         exclude:
-            - '../src/Domain/Entity/'
-            - '../src/Domain/Event/'
-            - '../src/Domain/Request/'
-            - '../src/Domain/Response/'
+            - '../src/Domain/Recipient/Entity/'
+            - '../src/Domain/Recipient/Event/'
+            - '../src/Domain/Recipient/Request/'
+            - '../src/Domain/Recipient/Response/'
 
     Infrastructure\:
         resource: '../src/Infrastructure/'
@@ -36,15 +36,15 @@ services:
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
 
-    Domain\Gateway\RecipientRepositoryInterface: '@Infrastructure\Symfony\Repository\DoctrineRecipientRepository'
+    Domain\Recipient\Gateway\RecipientRepositoryInterface: '@Infrastructure\Symfony\Repository\DoctrineRecipientRepository'
 
-    Domain\Gateway\LoggingGatewayInterface: '@Infrastructure\Symfony\Service\LoggingService'
+    Domain\Recipient\Gateway\LoggingGatewayInterface: '@Infrastructure\Symfony\Service\LoggingService'
 
-    Domain\Gateway\ApiKeyValidatorInterface: '@Infrastructure\Symfony\Security\ApiKeyAuthenticator'
+    Domain\Recipient\Gateway\ApiKeyValidatorInterface: '@Infrastructure\Symfony\Security\ApiKeyAuthenticator'
 
-    Domain\Gateway\MessageDispatcherInterface: '@Infrastructure\Symfony\Service\MessageDispatcher'
+    Domain\Recipient\Gateway\MessageDispatcherInterface: '@Infrastructure\Symfony\Service\MessageDispatcher'
 
-    Domain\Gateway\AlertSenderServiceInterface: '@Infrastructure\Symfony\Service\AlertSenderService'
+    Domain\Recipient\Gateway\AlertSenderServiceInterface: '@Infrastructure\Symfony\Service\AlertSenderService'
 
     Infrastructure\Symfony\Security\ApiKeyAuthenticator:
         arguments:

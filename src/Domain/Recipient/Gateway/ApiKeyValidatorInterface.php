@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Domain\Gateway;
+namespace Domain\Recipient\Gateway;
 
-use Domain\Request\Recipient\SendAlertsRequest;
+use Domain\Recipient\Request\SendAlertsRequest;
 
 interface ApiKeyValidatorInterface
 {

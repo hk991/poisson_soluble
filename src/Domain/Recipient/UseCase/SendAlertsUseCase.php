@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Domain\UseCase\Recipient;
+namespace Domain\Recipient\UseCase;
 
-use Domain\Gateway\ApiKeyValidatorInterface;
-use Domain\Gateway\MessageDispatcherInterface;
-use Domain\Gateway\RecipientRepositoryInterface;
-use Domain\Request\Recipient\SendAlertsRequest;
-use Domain\Response\Recipient\SendAlertsResponse;
+use Domain\Recipient\Gateway\ApiKeyValidatorInterface;
+use Domain\Recipient\Gateway\MessageDispatcherInterface;
+use Domain\Recipient\Gateway\RecipientRepositoryInterface;
+use Domain\Recipient\Request\SendAlertsRequest;
+use Domain\Recipient\Response\SendAlertsResponse;
 
 class SendAlertsUseCase
 {

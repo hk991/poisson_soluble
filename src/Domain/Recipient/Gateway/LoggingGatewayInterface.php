@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Domain\Gateway;
+namespace Domain\Recipient\Gateway;
 
 interface LoggingGatewayInterface
 {

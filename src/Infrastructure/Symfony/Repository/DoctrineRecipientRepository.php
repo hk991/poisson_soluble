@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Infrastructure\Symfony\Repository;
 
 use Doctrine\DBAL\Connection;
-use Domain\Entity\Recipient;
-use Domain\Gateway\RecipientRepositoryInterface;
+use Domain\Recipient\Entity\Recipient;
+use Domain\Recipient\Gateway\RecipientRepositoryInterface;
 
 final class DoctrineRecipientRepository implements RecipientRepositoryInterface
 {

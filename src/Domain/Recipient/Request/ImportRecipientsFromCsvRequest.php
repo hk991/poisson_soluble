@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Domain\Request\Recipient;
+namespace Domain\Recipient\Request;
 
 class ImportRecipientsFromCsvRequest
 {

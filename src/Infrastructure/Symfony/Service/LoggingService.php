@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Infrastructure\Symfony\Service;
 
-use Domain\Gateway\LoggingGatewayInterface;
+use Domain\Recipient\Gateway\LoggingGatewayInterface;
 use Psr\Log\LoggerInterface;
 
 class LoggingService implements LoggingGatewayInterface
