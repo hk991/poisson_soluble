@@ -46,6 +46,8 @@ services:
 
     Domain\Recipient\Gateway\AlertSenderServiceInterface: '@Infrastructure\Symfony\Service\AlertSenderService'
 
+    Domain\Recipient\Presenter\SendAlertsPresenterInterface: '@Infrastructure\Symfony\Presenter\JsonSendAlertsPresenter'
+
     Infrastructure\Symfony\Security\ApiKeyAuthenticator:
         arguments:
             $apiKey: '%env(API_KEY)%'

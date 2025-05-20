@@ -1,11 +1,10 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Infrastructure\Symfony\Controller;
 
 use Domain\Recipient\Request\SendAlertsRequest;
 use Domain\Recipient\UseCase\SendAlertsUseCase;
+use Domain\Recipient\Presenter\SendAlertsPresenterInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -13,9 +12,10 @@ use Symfony\Component\Routing\Annotation\Route;
 final class SendAlertsController
 {
     #[Route('/alerter', name: 'send_alerts', methods: ['POST'])]
-    public function sendAlerts(
+    public function __invoke(
         Request $request,
         SendAlertsUseCase $sendAlertsUseCase,
+        SendAlertsPresenterInterface $presenter,
     ): JsonResponse {
         if ($request->isMethod('POST') && $request->headers->get('Content-Type') !== 'application/json') {
             return new JsonResponse(['error' => 'Incorrect Content-Type. Expected application/json.'], JsonResponse::HTTP_BAD_REQUEST);
@@ -26,12 +26,10 @@ final class SendAlertsController
             return new JsonResponse(['error' => 'Missing or invalid JSON payload'], JsonResponse::HTTP_BAD_REQUEST);
         }
 
-        $response = $sendAlertsUseCase->sendAlerts(new SendAlertsRequest($data['insee'], $request->headers->get('x-api-key')));
+        $response = $sendAlertsUseCase->execute(
+            new SendAlertsRequest($data['insee'], $request->headers->get('x-api-key'))
+        );
 
-        if ($response->isSuccess()) {
-            return new JsonResponse(['message' => $response->getMessage()], JsonResponse::HTTP_OK);
-        }
-
-        return new JsonResponse(['error' => $response->getMessage()], JsonResponse::HTTP_BAD_REQUEST);
+        return $presenter->present($response);
     }
 }

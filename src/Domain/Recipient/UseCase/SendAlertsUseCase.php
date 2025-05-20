@@ -19,7 +19,7 @@ class SendAlertsUseCase
     ) {
     }
 
-    public function sendAlerts(SendAlertsRequest $request): SendAlertsResponse
+    public function execute(SendAlertsRequest $request): SendAlertsResponse
     {
         try {
             $this->apiKeyValidator->validate($request);

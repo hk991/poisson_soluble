@@ -33,14 +33,18 @@ class SendAlertsUseCaseTest extends TestCase
         );
     }
 
-    public function testSendAlertsSuccessfully(): void
+    public function test_it_sends_alerts_successfully(): void
     {
         $request = $this->createMock(SendAlertsRequest::class);
         $request->method('getInsee')->willReturn('77777');
 
-        $this->apiKeyValidator->expects($this->once())->method('validate')->with($request);
+        $this->apiKeyValidator
+            ->expects($this->once())
+            ->method('validate')
+            ->with($request);
 
         $recipient = new Recipient('77777', '0601020304');
+
         $this->recipientRepository
             ->expects($this->once())
             ->method('findByInsee')
@@ -52,42 +56,49 @@ class SendAlertsUseCaseTest extends TestCase
             ->method('dispatch')
             ->with($recipient, 'test message.');
 
-        $response = $this->useCase->sendAlerts($request);
+        $response = $this->useCase->execute($request);
 
         $this->assertInstanceOf(SendAlertsResponse::class, $response);
         $this->assertTrue($response->isSuccess());
         $this->assertSame('SMS queued for delivery.', $response->getMessage());
     }
 
-    public function testSendAlertsUnauthorized(): void
+    public function test_it_returns_unauthorized_when_api_key_is_invalid(): void
     {
         $request = $this->createMock(SendAlertsRequest::class);
 
         $this->apiKeyValidator
             ->expects($this->once())
             ->method('validate')
+            ->with($request)
             ->willThrowException(new \Exception('Invalid API Key'));
 
-        $response = $this->useCase->sendAlerts($request);
+        $response = $this->useCase->execute($request);
 
+        $this->assertInstanceOf(SendAlertsResponse::class, $response);
         $this->assertFalse($response->isSuccess());
         $this->assertSame('Unauthorized: Invalid API Key', $response->getMessage());
     }
 
-    public function testSendAlertsNoRecipients(): void
+    public function test_it_returns_error_when_no_recipients_found(): void
     {
         $request = $this->createMock(SendAlertsRequest::class);
-        $request->method('getInsee')->willReturn('0000000000000');
+        $request->method('getInsee')->willReturn('000000');
 
-        $this->apiKeyValidator->expects($this->once())->method('validate');
+        $this->apiKeyValidator
+            ->expects($this->once())
+            ->method('validate')
+            ->with($request);
 
         $this->recipientRepository
             ->expects($this->once())
             ->method('findByInsee')
+            ->with('000000')
             ->willReturn([]);
 
-        $response = $this->useCase->sendAlerts($request);
+        $response = $this->useCase->execute($request);
 
+        $this->assertInstanceOf(SendAlertsResponse::class, $response);
         $this->assertFalse($response->isSuccess());
         $this->assertSame('No recipients found for the provided INSEE.', $response->getMessage());
     }
